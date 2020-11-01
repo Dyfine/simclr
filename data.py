@@ -147,11 +147,11 @@ def build_input_fn(builder, is_training):
         'image/class/label':tf.FixedLenFeature([],tf.int64)})
       image = tf.decode_raw(feats['image/encoded'], tf.float32)
       label = feats['image/class/label']
-      return image, label
+      return (image, label)
 
     dataset = dataset.map(parse_exmp)
 
-    
+
     
     if FLAGS.cache_dataset:
       dataset = dataset.cache()
