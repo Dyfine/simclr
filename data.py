@@ -115,7 +115,8 @@ def build_input_fn(builder, is_training):
     """Inner input function."""
     preprocess_fn_pretrain = get_preprocess_fn(is_training, is_pretrain=True)
     preprocess_fn_finetune = get_preprocess_fn(is_training, is_pretrain=False)
-    num_classes = builder.info.features['label'].num_classes
+    # num_classes = builder.info.features['label'].num_classes
+    num_classes = 1000
 
     def map_fn(image, label):
       """Produces multiple transformations of the same batch."""
@@ -130,9 +131,11 @@ def build_input_fn(builder, is_training):
         label = tf.one_hot(label, num_classes)
       return image, label, 1.0
 
-    dataset = builder.as_dataset(
-        split=FLAGS.train_split if is_training else FLAGS.eval_split,
-        shuffle_files=is_training, as_supervised=True)
+    # dataset = builder.as_dataset(
+    #     split=FLAGS.train_split if is_training else FLAGS.eval_split,
+    #     shuffle_files=is_training, as_supervised=True)
+    dataset = builder
+    
     if FLAGS.cache_dataset:
       dataset = dataset.cache()
     if is_training:
