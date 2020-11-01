@@ -141,6 +141,16 @@ def build_input_fn(builder, is_training):
     else:
       file_pattern = os.path.join(FLAGS.data_dir, 'validation-*')
       dataset = tf.data.Dataset.list_files(file_pattern, shuffle=False)
+
+    def parse_exmp(serial_exmp): 
+      feats = tf.parse_single_example(serial_exmp, features={'image/encoded':tf.FixedLenFeature([], tf.string),\
+        'image/class/label':tf.FixedLenFeature([],tf.int64)})
+      image = tf.decode_raw(feats['image/encoded'], tf.float32)
+      label = feats['image/class/label']
+      return image, label
+
+    dataset = dataset.map(parse_exmp)
+
     
     
     if FLAGS.cache_dataset:
