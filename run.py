@@ -355,7 +355,7 @@ def main(argv):
 
 
   file_pattern = os.path.join(FLAGS.data_dir, 'train-*')
-  train_dataset = tf.data.Dataset.list_files(file_pattern, shuffle=True)
+  train_dataset = tf.data.Dataset.list_files(file_pattern, shuffle=False)
   file_pattern = os.path.join(FLAGS.data_dir, 'validation-*')
   val_dataset = tf.data.Dataset.list_files(file_pattern, shuffle=False)
 
