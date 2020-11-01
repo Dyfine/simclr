@@ -354,10 +354,10 @@ def main(argv):
     tf.config.set_soft_device_placement(True)
 
 
-  file_pattern = os.path.join(FLAGS.data_dir, 'train-*')
-  train_dataset = tf.data.Dataset.list_files(file_pattern, shuffle=False)
-  file_pattern = os.path.join(FLAGS.data_dir, 'validation-*')
-  val_dataset = tf.data.Dataset.list_files(file_pattern, shuffle=False)
+  # file_pattern = os.path.join(FLAGS.data_dir, 'train-*')
+  # train_dataset = tf.data.Dataset.list_files(file_pattern, shuffle=False)
+  # file_pattern = os.path.join(FLAGS.data_dir, 'validation-*')
+  # val_dataset = tf.data.Dataset.list_files(file_pattern, shuffle=False)
 
 
   # builder = tfds.builder(FLAGS.dataset, data_dir=FLAGS.data_dir)
@@ -419,7 +419,7 @@ def main(argv):
         result = perform_evaluation(
             estimator=estimator,
             # input_fn=data_lib.build_input_fn(builder, False),
-            input_fn=data_lib.build_input_fn(val_dataset, False),
+            input_fn=data_lib.build_input_fn(None, False),
             eval_steps=eval_steps,
             model=model,
             num_classes=num_classes,
@@ -430,14 +430,14 @@ def main(argv):
         return
   else:
     estimator.train(
-        data_lib.build_input_fn(train_dataset, True),
+        data_lib.build_input_fn(None, True),
         # data_lib.build_input_fn(builder, True)
         max_steps=train_steps)
     if FLAGS.mode == 'train_then_eval':
       perform_evaluation(
           estimator=estimator,
           # input_fn=data_lib.build_input_fn(builder, False),
-          input_fn=data_lib.build_input_fn(val_dataset, False),
+          input_fn=data_lib.build_input_fn(None, False),
           eval_steps=eval_steps,
           model=model,
           num_classes=num_classes)

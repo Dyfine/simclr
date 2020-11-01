@@ -134,7 +134,13 @@ def build_input_fn(builder, is_training):
     # dataset = builder.as_dataset(
     #     split=FLAGS.train_split if is_training else FLAGS.eval_split,
     #     shuffle_files=is_training, as_supervised=True)
-    dataset = builder
+    if is_training:
+      file_pattern = os.path.join(FLAGS.data_dir, 'train-*')
+      dataset = tf.data.Dataset.list_files(file_pattern, shuffle=False)
+    else:
+      file_pattern = os.path.join(FLAGS.data_dir, 'validation-*')
+      dataset = tf.data.Dataset.list_files(file_pattern, shuffle=False)
+    
     
     if FLAGS.cache_dataset:
       dataset = dataset.cache()
