@@ -24,6 +24,7 @@ from absl import flags
 
 import data_util as data_util
 import tensorflow.compat.v1 as tf
+import os
 
 FLAGS = flags.FLAGS
 
