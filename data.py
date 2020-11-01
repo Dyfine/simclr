@@ -144,7 +144,7 @@ def build_input_fn(builder, is_training):
 
     def parse_exmp(serial_exmp): 
       feats = tf.parse_single_example(serial_exmp, features={'image/encoded':tf.FixedLenFeature([], tf.string),\
-        'image/class/label':tf.FixedLenFeature([],tf.int64)})
+        'image/class/label':tf.FixedLenFeature([1],tf.int64)})
       image = tf.decode_raw(feats['image/encoded'], tf.float32)
       label = feats['image/class/label']
       return (image, label)
